@@ -15,10 +15,10 @@ import ShoppingAccount from "./Pages/ShoppingView/Account";
 import ShoppingCheckOut from "./Pages/ShoppingView/CheckOut";
 import CheckAuth from "./components/Common/CheckAuth";
 import UnauthPage from "./Pages/UnauthPage";
+import { useSelector } from "react-redux";
 
 function App() {
-  const isAuthenticated = false;
-  const user = null;
+  const { user, isAuthenticated } = useSelector((state) => state.auth);
 
   return (
     <>

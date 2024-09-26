@@ -1,18 +1,49 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CommonForm from "../../components/Common/Form";
 import { registerFormControls } from "../../Config";
+import { registerUser } from "../../Store/authSlice";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../Store/Store";
+import { useToast } from "../../hooks/use-toast";
 
-const initialState = {
+interface RegisterFormData {
+  userName: string;
+  email: string;
+  password: string;
+}
+
+const initialState: RegisterFormData = {
   userName: "",
   email: "",
   password: "",
 };
 
 function AuthRegister() {
-  const [formData, setFormData] = React.useState(initialState);
+  const [formData, setFormData] =
+    React.useState<RegisterFormData>(initialState);
+  const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
+  const { toast } = useToast();
 
-  function onSubmit() {}
+  function onSubmit(e: React.FormEvent) {
+    e.preventDefault();
+
+    dispatch(registerUser(formData)).then((data) => {
+      if (data?.payload?.success) {
+        toast({
+          title: data?.payload?.message,
+        });
+        navigate("/auth/login");
+      } else {
+        toast({
+          title: data?.payload?.message,
+          variant: "destructive",
+        });
+      }
+    });
+  }
+
 
   return (
     <>

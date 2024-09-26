@@ -2,16 +2,41 @@ import React from "react";
 import { Link } from "react-router-dom";
 import CommonForm from "../../components/Common/Form";
 import { loginFormControls } from "../../Config";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../../Store/authSlice";
+import { useToast } from "../../hooks/use-toast";
 
-const initialState = {
+interface LoginFormData {
+  email: string;
+  password: string;
+}
+
+const initialState: LoginFormData = {
   email: "",
   password: "",
 };
-
 function AuthLogin() {
-  const [formData, setFormData] = React.useState(initialState);
+  const [formData, setFormData] = React.useState<LoginFormData>(initialState);
 
-  function onSubmit() {}
+  const dispatch = useDispatch();
+  const { toast } = useToast();
+
+  function onSubmit(e: React.FormEvent) {
+    e.preventDefault();
+
+    dispatch(loginUser(formData)).then((data) => {
+      if (data?.payload?.success) {
+        toast({
+          title: data?.payload?.message,
+        });
+      } else {
+        toast({
+          title: data?.payload?.message,
+          variant: "destructive",
+        });
+      }
+    });
+  }
 
   return (
     <>
