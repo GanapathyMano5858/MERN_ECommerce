@@ -11,17 +11,17 @@ import {
 import { Textarea } from "../ui/textarea";
 import { CommonFormProps, FormControl } from "../Type/FormInterfaces";
 
-function CommonForm({
+function CommonForm<T extends Record<string, any>>({
   formControls,
   formData,
   setFormData,
   onSubmit,
   buttonText,
-}: CommonFormProps) {
+}: CommonFormProps<T>) {
   function renderInputsByComponentType(getControlItem: FormControl) {
     let element = null;
 
-    const value = formData[getControlItem.name] || "";
+    const value = (formData as Record<string, any>)[getControlItem.name] || "";
 
     switch (getControlItem.componentType) {
       case "input":
@@ -59,7 +59,7 @@ function CommonForm({
               {getControlItem.option && getControlItem.option.length > 0
                 ? getControlItem.option.map((optionItem) => (
                     <SelectItem key={optionItem.id} value={optionItem.id}>
-                      {optionItem.lable}
+                      {optionItem.label}
                     </SelectItem>
                   ))
                 : null}

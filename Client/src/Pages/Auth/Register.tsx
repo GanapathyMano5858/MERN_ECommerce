@@ -8,13 +8,14 @@ import { AppDispatch } from "../../Store/Store";
 import { useToast } from "../../hooks/use-toast";
 
 interface RegisterFormData {
-  userName: string;
+  name: string;
   email: string;
   password: string;
+  [key: string]: string;
 }
 
 const initialState: RegisterFormData = {
-  userName: "",
+  name: "",
   email: "",
   password: "",
 };
@@ -43,7 +44,6 @@ function AuthRegister() {
       }
     });
   }
-
 
   return (
     <>

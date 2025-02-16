@@ -16,8 +16,8 @@ export const registerFormControls = [
     option: ["hi", "hi2", "hi3"],
   },
   {
-    name: "Password",
-    label: "Password",
+    name: "password",
+    label: "password",
     placeholder: "Enter Your Password",
     componentType: "input",
     type: "password",
@@ -35,8 +35,8 @@ export const loginFormControls = [
     option: ["hi", "hi2", "hi3"],
   },
   {
-    name: "Password",
-    label: "Password",
+    name: "password",
+    label: "password",
     placeholder: "Enter Your Password",
     componentType: "input",
     type: "password",

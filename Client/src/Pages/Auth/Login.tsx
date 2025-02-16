@@ -3,12 +3,15 @@ import { Link } from "react-router-dom";
 import CommonForm from "../../components/Common/Form";
 import { loginFormControls } from "../../Config";
 import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../Store/Store";
+
 import { loginUser } from "../../Store/authSlice";
 import { useToast } from "../../hooks/use-toast";
 
 interface LoginFormData {
   email: string;
   password: string;
+  [key: string]: string;
 }
 
 const initialState: LoginFormData = {
@@ -18,13 +21,13 @@ const initialState: LoginFormData = {
 function AuthLogin() {
   const [formData, setFormData] = React.useState<LoginFormData>(initialState);
 
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const { toast } = useToast();
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    dispatch(loginUser(formData)).then((data) => {
+    dispatch(loginUser(formData)).then((data: any) => {
       if (data?.payload?.success) {
         toast({
           title: data?.payload?.message,

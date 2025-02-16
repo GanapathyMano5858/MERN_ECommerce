@@ -1,18 +1,19 @@
 // Define FormControl Interface
 export interface FormControl {
+  id?: string; // Add id as optional if not always present
   name: string;
   label: string;
   placeholder: string;
-  componentType: string; // 'input' could be specified more strictly
-  type: string; // 'text', 'email', 'password', etc.
-  option: string[];
+  componentType: "input" | "select" | "textarea";
+  type: string;
+  option?: { id: string; label: string }[];
 }
 
 // Define CommonFormProps interface
-export interface CommonFormProps {
+export interface CommonFormProps<T extends Record<string, any>> {
+  formData: T;
+  setFormData: React.Dispatch<React.SetStateAction<T>>;
   formControls: FormControl[];
-  formData: { [key: string]: string };
-  setFormData: React.Dispatch<React.SetStateAction<{ [key: string]: string }>>;
-  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-  buttonText?: string;
+  buttonText: string;
+  onSubmit: (e: React.FormEvent) => void;
 }

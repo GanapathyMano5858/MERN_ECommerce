@@ -38,24 +38,22 @@ const loginUser = async (req, res) => {
   const { email, password } = req.body;
   try {
     const checkUser = await User.findOne({ email });
-    if (!checkUser) {
+    if (!checkUser)
       return res.json({
         success: false,
         message: "User Doesn't Exists!! Please register First",
       });
-    }
 
     const checkPasswordMatch = await bcrypt.compare(
       password,
       checkUser.password
     );
 
-    if (!checkPasswordMatch) {
+    if (!checkPasswordMatch)
       return res.json({
         success: false,
         message: "Incorrect Password!! Please try again",
       });
-    }
 
     const token = jwt.sign(
       {

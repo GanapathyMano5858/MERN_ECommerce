@@ -15,6 +15,11 @@ interface User {
   // Add more user properties if needed
 }
 
+interface LoginFormData {
+  email: string;
+  password: string;
+}
+
 interface RegisterFormData {
   name: string;
   email: string;
@@ -43,16 +48,19 @@ export const registerUser = createAsyncThunk(
   }
 );
 
-export const loginUser = createAsyncThunk("auth/login", async (formData) => {
-  const response = await axios.post(
-    "http://localhost:5000/api/auth/login",
-    formData,
-    {
-      withCredentials: true,
-    }
-  );
-  return response.data;
-});
+export const loginUser = createAsyncThunk(
+  "auth/login",
+  async (formData: LoginFormData) => {
+    const response = await axios.post(
+      "http://localhost:5000/api/auth/login",
+      formData,
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  }
+);
 
 // Create the slice
 const authSlice = createSlice({
@@ -66,6 +74,7 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // Register User
       .addCase(registerUser.pending, (state) => {
         state.isLoading = true;
       })
@@ -79,13 +88,15 @@ const authSlice = createSlice({
         state.user = null;
         state.isAuthenticated = false;
       })
+
+      // Login User
       .addCase(loginUser.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.user = action.payload.success ? action.payload.user : null;
-        state.isAuthenticated = action.payload.success;
+        state.user = !action.payload.success ? null : action.payload.user;
+        state.isAuthenticated = !action.payload.success ? false : true;
       })
       .addCase(loginUser.rejected, (state) => {
         state.isLoading = false;
